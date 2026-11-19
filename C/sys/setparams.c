@@ -267,7 +267,7 @@ void check_info(int type, int nprocs, char class)
     printf("setparams: Allowed classes are \"S\", \"A\", \"B\" , \"C\", and \"D\"\n");
     exit(1);
   }
-  if (class == 'D' && type == 'IS') {
+  if (class == 'D' && type == IS) {
     printf("setparams: Invalid benchmark class %c\n", class);
     printf("setparams: Allowed classes are \"S\", \"A\", \"B\", and \"C\"\n");
     exit(1);

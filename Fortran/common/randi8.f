@@ -20,7 +20,7 @@ c   arguments will generate a continuous sequence.
       integer*8 i246m1, Lx, La
       double precision d2m46
       save i246m1
-      data i246m1/X'00003FFFFFFFFFFF'/
+      data i246m1/Z'00003FFFFFFFFFFF'/
 
       parameter(d2m46=0.5d0**46)
 
@@ -50,7 +50,7 @@ c bits and overflows. No standard way (without f90 stuff) to specify
 c that the rhs should be done in 64 bit arithmetic. 
 c      parameter(i246m1=2**46-1)
       save i246m1
-      data i246m1/X'00003FFFFFFFFFFF'/
+      data i246m1/Z'00003FFFFFFFFFFF'/
 
       parameter(d2m46=0.5d0**46)
 
