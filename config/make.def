@@ -1,0 +1,51 @@
+#---------------------------------------------------------------------------
+# make.def for the OpenSHMEM NAS Parallel Benchmarks on OSSS OpenSHMEM over
+# the UCX cxl transport. C/config/make.def and Fortran/config/make.def are
+# symlinks to this file. Build ../fshmem (make -C fshmem) before any benchmark.
+#---------------------------------------------------------------------------
+
+# fshmem/ at the repository root. Every includer is two levels down
+# (C/IS, Fortran/sys, ...) and includes ../config/make.def, so the path is
+# taken from this file's own location rather than the working directory.
+FSHMEM_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))../../fshmem)
+
+#---------------------------------------------------------------------------
+# Fortran. OSSS has no Fortran wrapper, so run oshcc with gfortran as its
+# compiler: that adds OSSS's link flags. fshmem provides the Fortran SHMEM
+# bindings, mpp/shmem.fh and a stand-in mpif.h; the benchmarks need no MPI
+# library.
+#
+# -fno-pie/-no-pie: OSSS addresses static symmetric data (all of the
+# benchmarks' data) by its local address on every PE.
+# -fallow-argument-mismatch: the benchmarks pass scalars and arrays to the
+# same SHMEM routine, which gfortran >= 10 rejects by default.
+#---------------------------------------------------------------------------
+SHMEMF77   = OSH_CC=gfortran oshcc
+FLINK      = $(SHMEMF77)
+FSHMEM_LIB =
+FSHMEM_INC = -I$(FSHMEM_DIR)/include
+FMPI_LIB   = $(FSHMEM_DIR)/libfshmem.a
+FMPI_INC   =
+FFLAGS     = -O2 -g -I./ -fno-pie -fallow-argument-mismatch -std=legacy
+FLINKFLAGS = -O2 -g -no-pie
+
+#---------------------------------------------------------------------------
+# C (IS). fshmem/include also has a stand-in mpi.h, which IS includes but
+# doesn't use. libfshmem.a overrides OSSS's start_pes(), which skips most of
+# shmem_init(). -std=gnu89: IS uses K&R definitions and implicit int.
+#---------------------------------------------------------------------------
+SHMEMCC    = oshcc
+CLINK      = $(SHMEMCC)
+CSHMEM_LIB =
+CSHMEM_INC =
+CMPI_LIB   = $(FSHMEM_DIR)/libfshmem.a
+CMPI_INC   = -I$(FSHMEM_DIR)/include
+CFLAGS     = -O2 -g -fno-pie -std=gnu89
+CLINKFLAGS = -O2 -g -no-pie
+
+#---------------------------------------------------------------------------
+# Build utilities (setparams), and output
+#---------------------------------------------------------------------------
+CC     = cc -g
+BINDIR = ../bin
+RAND   = randi8

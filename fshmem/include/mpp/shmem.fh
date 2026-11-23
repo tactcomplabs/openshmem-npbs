@@ -1,0 +1,15 @@
+!     Fortran SHMEM constants for the OpenSHMEM NAS Parallel Benchmarks,
+!     paired with fshmem.c. Valid as both fixed- and free-form source.
+!
+!     fshmem.c ignores the pSync arrays callers pass, so these sizes only
+!     need to be positive; they are twice OSSS's C values to stay safe if
+!     that ever changes. pWrk is passed through, and OSSS's reductions
+!     don't use it.
+      integer SHMEM_BCAST_SYNC_SIZE
+      parameter (SHMEM_BCAST_SYNC_SIZE = 128)
+      integer SHMEM_REDUCE_SYNC_SIZE
+      parameter (SHMEM_REDUCE_SYNC_SIZE = 256)
+      integer SHMEM_REDUCE_MIN_WRKDATA_SIZE
+      parameter (SHMEM_REDUCE_MIN_WRKDATA_SIZE = 128)
+      integer SHMEM_SYNC_VALUE
+      parameter (SHMEM_SYNC_VALUE = 0)
