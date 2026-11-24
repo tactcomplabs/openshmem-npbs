@@ -1,0 +1,3 @@
+fshmem/*.o
+fshmem/libfshmem.a
+npb3.3.1/

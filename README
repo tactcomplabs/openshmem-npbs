@@ -25,8 +25,12 @@ Current Status as of Release 1.0a
 
 Currently, the following benchmarks are available in OpenSHMEM:
 
-Fortran: EP, MG, BT, SP
+Fortran: EP, MG, BT, SP, CG
 C: IS
+
+CG is ported from NPB 3.3.1 (NPB3.3-MPI). Its pairwise exchanges become
+shmem_double_put plus shmem_barrier_all; see the comment at the top of
+Fortran/CG/cg.f.
 
 More benchmarks, as well as optimized code for performance, will be made
 available in forthcoming releases.
